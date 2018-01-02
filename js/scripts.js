@@ -10,6 +10,18 @@ var fills = [
     'rgba(127, 254, 146, 1)'
 ];
 
+// Declare function vars
+var init, drawWaves, getMicrophoneInput, processAudio, processSpeech;
+
+// Declare canvas related vars
+var canvas, canvasContext;
+
+// Declare audio related vars
+var audioContext, audioProcessor;
+
+// Declate speech related vars
+var recognition, finalTranscript, interimTranscript, response, synth, utterResponse;
+
 
 
 var navigate = (function() {
