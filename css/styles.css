@@ -1,9 +1,18 @@
 body {
   text-align: center;
   font-family: courier;
-  background-image:url("../assets/image.jpeg");
-  background-repeat: no-repeat;
-  background-size: 100%;
+  background: #f2f2f2;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.container {
+	width: auto;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px 0;
 }
 
 
