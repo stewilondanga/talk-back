@@ -15,6 +15,23 @@ body {
 	padding: 20px 0;
 }
 
+.col--1 {
+	float: left;
+
+	width: 300px;
+}
+
+.col--2 {
+	float: right;
+	width: calc(100% - 300px);
+	padding-left: 50px;
+}
+
+.iphone6 {
+	transform: scale(.7);
+	transform-origin: top left;
+}
+
 
     h1 {
     	font-family: helvetica;
