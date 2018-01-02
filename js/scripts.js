@@ -154,7 +154,77 @@ processSpeech = function() {
 
             if (response.indexOf('catsandboots')) {
                 document.querySelector('.text--siri').innerHTML = response.substring(0, response.indexOf('boots'));
-								
+
+            } else {
+                document.querySelector('.text--siri').innerHTML = response;
+            }
+            document.querySelector('.text--siri').classList.remove('hidden');
+
+            utterResponse = new SpeechSynthesisUtterance(response);
+            utterResponse.voice = synth.getVoices().filter(function(voice) { return voice.name == 'Google US English'; })[0];
+            synth.speak(utterResponse);
+
+            finalTranscript = ''
+        };
+
+        speechStart = function() {
+            finalTranscript = '';
+            // recognition.lang = select_dialect.value;
+        };
+
+        speechResult = function(e) {
+            interimTranscript = '';
+
+            var i = e.resultIndex;
+            for (; i < e.results.length; ++i) {
+                if (e.results[i].isFinal) {
+                    finalTranscript += e.results[i][0].transcript;
+                } else {
+                    interimTranscript += e.results[i][0].transcript;
+                }
+            }
+
+            document.querySelector('.text--user').innerHTML = '"' + _.trim(_.capitalize(interimTranscript)) + '"';
+            document.querySelector('.text--user').classList.remove('hidden');
+
+            if (finalTranscript.length > 0) {
+                document.querySelector('.text--user').innerHTML = '"' + _.trim(_.capitalize(finalTranscript)) + '"';
+
+                processInput(finalTranscript );
+            }
+        };
+
+        speechAudioStart = function() {
+            document.querySelector('h1').classList.add('out');
+
+            window.setTimeout(function() {
+                document.querySelector('h1').classList.add('hidden');
+            }, 300);
+        };
+
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.onstart = speechStart;
+        recognition.onresult = speechResult;
+        recognition.onspeechstart = speechAudioStart;
+
+        recognition.start();
+
+        synth = window.speechSynthesis;
+    }
+};
+
+// Initialise
+init = !function() {
+    // Basic setup of the canvas
+    canvas = document.querySelector('.waves');
+    canvasContext = canvas.getContext('2d');
+    canvasContext.globalCompositeOperation = 'overlay';
+
+    getMicrophoneInput();
+    processSpeech();
+}();
 
 var navigate = (function() {
 	$('.dd').toggle();
